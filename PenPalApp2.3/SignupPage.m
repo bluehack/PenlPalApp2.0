@@ -9,6 +9,8 @@
 #import "SignupPage.h"
 #import "SignupOptions.h"
 
+NSString *gV_signup_age = @"";
+
 @interface SignupPage ()
 
 @end
@@ -177,6 +179,22 @@
 - (IBAction)submitButton{
     
     // check that info is correct, show error msg if not
+    
+    NSString *dateFromTextfield = gV_signup_age;
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"MM-dd-yyyy"];
+    NSDate *date = [dateFormat dateFromString:dateFromTextfield];
+    // check if date is null
+    NSLog(@"%@", date);
+    NSDate* birthday = date;
+    
+NSDate* now = [NSDate date];
+NSDateComponents* ageComponents = [[NSCalendar currentCalendar] components:NSCalendarUnitYear fromDate:birthday toDate:now options:0];
+    
+    // check that user age is in exeptable range
+    NSInteger age = [ageComponents year];
+    NSLog(@"Age: %ld", (long)age);
+    
     UIAlertView *error = [[UIAlertView alloc]
                               initWithTitle: @"Potential Error msg"
                               message: nil
@@ -192,12 +210,12 @@
     NSInteger City = [[NSUserDefaults standardUserDefaults] integerForKey:@"City"];
     
 #pragma - remove after testing
-    [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"loggedIn"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    //[[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"loggedIn"];
+    //[[NSUserDefaults standardUserDefaults] synchronize];
     
-    [self.view endEditing:YES];
-    [[[self presentingViewController] presentingViewController] dismissViewControllerAnimated:NO completion:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    //[self.view endEditing:YES];
+    //[[[self presentingViewController] presentingViewController] dismissViewControllerAnimated:NO completion:nil];
+    //[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)actionBTN:(id)sender{
@@ -293,6 +311,8 @@ NSMutableString *filteredPhoneStringFromStringWithFilter(NSString *string, NSStr
     }
     
     textField.text = filteredPhoneStringFromStringWithFilter(changedString, filter);
+    gV_signup_age = textField.text;
+     //NSLog(@"txt: %@", textField.text);
     
     return NO;
 }

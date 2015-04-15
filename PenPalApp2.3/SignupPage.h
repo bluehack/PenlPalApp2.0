@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *gV_signup_age;
+
 @interface SignupPage : UIViewController<UIAlertViewDelegate, UITextFieldDelegate>{
     
 }
