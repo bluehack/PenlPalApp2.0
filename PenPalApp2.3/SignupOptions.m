@@ -18,19 +18,32 @@ NSString *gV_city_list = @"";
 @end
 
 @implementation SignupOptions
+@synthesize navTitle;
+//@synthesize tableView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+     //[self performSelector:@selector(doScrolling) withObject:nil afterDelay:0.3];
     
 }
 
+- (void)doScrolling
+{
+    //[(UITableView *)self.view scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:34 inSection:0 ] atScrollPosition:0 animated:YES];
+}
+
 -(void)viewDidAppear:(BOOL)animated{
+
 
    
 }
@@ -40,27 +53,21 @@ NSString *gV_city_list = @"";
     NSInteger pageListID = [[NSUserDefaults standardUserDefaults] integerForKey:@"pageListID"];
     
     switch (pageListID) {
-        case 7:
+        case 5:
         {
-            NSInteger Country = [[NSUserDefaults standardUserDefaults] integerForKey:@"Country"];
-            NSString *urlString = [NSString stringWithFormat:@"http://networklift.com/penpalapp.php?country=%ld", (long)Country];
-            NSError *error = nil;
-            NSHTTPURLResponse *response = nil;
-            NSURLRequest *request = [NSURLRequest
-                                     requestWithURL:[NSURL URLWithString:urlString]
-                                     cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                     timeoutInterval:5.0];
-            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            gV_region_list = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            
-            NSArray* regCountArr = [gV_region_list componentsSeparatedByString: @","];
-            gV_region = [regCountArr count];
+            navTitle.topItem.title = NSLocalizedString(@"Gender", nil);
             break;
         }
-        case 8:
+        case 6:
         {
-            NSInteger Country = [[NSUserDefaults standardUserDefaults] integerForKey:@"Region"];
-            NSString *urlString = [NSString stringWithFormat:@"http://networklift.com/penpalapp.php?country=%ld", (long)Country];
+            navTitle.topItem.title = NSLocalizedString(@"Country", nil);
+            break;
+        }
+        case 7:
+        {
+            navTitle.topItem.title = NSLocalizedString(@"Region", nil);
+            NSString *Country = [[NSUserDefaults standardUserDefaults] stringForKey:@"Country"];
+            NSString *urlString = [NSString stringWithFormat:@"http://networklift.com/penpalapp.php?country=%@", Country];
             NSError *error = nil;
             NSHTTPURLResponse *response = nil;
             NSURLRequest *request = [NSURLRequest
@@ -148,25 +155,40 @@ NSString *gV_city_list = @"";
      if (cell == nil) {
          cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
      }
+
     
     NSInteger pageListID = [[NSUserDefaults standardUserDefaults] integerForKey:@"pageListID"];
     
     NSString* listData = @"";
+    
     switch (pageListID) {
         case 5:
             {
             listData = NSLocalizedString(@"Male,Female", nil); //@"Male,Female";
+                NSString *Gender = [[NSUserDefaults standardUserDefaults] stringForKey:@"Gender"];
+                NSIndexPath *path = [NSIndexPath indexPathForRow:[Gender intValue] inSection:0];
+                if([indexPath isEqual:path] && [Gender length] != 0){cell.accessoryType = UITableViewCellAccessoryCheckmark;}
+                else{cell.accessoryType = UITableViewCellAccessoryNone;}
             break;
             }
         case 6:
         {
             listData = NSLocalizedString(@"Afghanistan,Albania,Algeria,American Samoa,Andorra,Angola,Anguilla,Antigua and Barbuda,Argentina,Armenia,Aruba,Australia,Austria,Azerbaijan,Bahamas,Bahrain,Bangladesh,Barbados,Belarus,Belgium,Belize,Benin,Bermuda,Bhutan,Bolivia,Bosnia and Herzegovina,Botswana,Brazil,British Virgin Islands,Brunei,Bulgaria,Burkina Faso,Burundi,Cambodia,Cameroon,Canada,Cape Verde,Cayman Islands,Central African Republic,Chad,Chile,China,Cocos Islands,Colombia,Comoros,Cook Islands,Costa Rica,Croatia,Cuba,Cyprus,Czech Republic,Democratic Republic of the Congo,Denmark,Djibouti,Dominica,Dominican Republic,East Timor,Ecuador,Egypt,El Salvador,Equatorial Guinea,Eritrea,Estonia,Ethiopia,Falkland Islands,Faroe Islands,Fiji,Finland,France,French Guiana,French Polynesia,French Southern Territories,Gabon,Gambia,Georgia,Germany,Ghana,Gibraltar,Greece,Greenland,Grenada,Guadeloupe,Guam,Guatemala,Guernsey,Guinea,Guinea-Bissau,Guyana,Haiti,Honduras,Hong Kong,Hungary,Iceland,India,Indonesia,Iran,Iraq,Ireland,Isle of Man,Israel,Italy,Ivory Coast,Jamaica,Japan,Jersey,Jordan,Kazakhstan,Kenya,Kiribati,Kuwait,Kyrgyzstan,Laos,Latvia,Lebanon,Lesotho,Liberia,Libya,Liechtenstein,Lithuania,Luxembourg,Macao,Macedonia,Madagascar,Malawi,Malaysia,Maldives,Mali,Malta,Marshall Islands,Martinique,Mauritania,Mauritius,Mayotte,Mexico,Micronesia,Moldova,Monaco,Mongolia,Montenegro,Montserrat,Morocco,Mozambique,Myanmar,Namibia,Nepal,Netherlands,Netherlands Antilles,New Caledonia,New Zealand,Nicaragua,Niger,Nigeria,Niue,North Korea,Northern Mariana Islands,Norway,Oman,Pakistan,Palau,Palestinian Territory,Panama,Papua New Guinea,Paraguay,Peru,Philippines,Poland,Portugal,Puerto Rico,Qatar,Republic of the Congo,Reunion,Romania,Russia,Rwanda,Saint Barthélemy,Saint Helena,Saint Kitts and Nevis,Saint Lucia,Saint Martin,Saint Pierre and Miquelon,Saint Vincent and the Grenadines,Samoa,San Marino,Sao Tome and Principe,Saudi Arabia,Senegal,Serbia,Seychelles,Sierra Leone,Singapore,Slovakia,Slovenia,Solomon Islands,Somalia,South Africa,South Korea,Spain,Sri Lanka,Sudan,Suriname,Svalbard and Jan Mayen,Swaziland,Sweden,Switzerland,Syria,Taiwan,Tajikistan,Tanzania,Thailand,Togo,Tonga,Trinidad and Tobago,Tunisia,Turkey,Turkmenistan,Turks and Caicos Islands,Tuvalu,U.S. Virgin Islands,Uganda,Ukraine,United Arab Emirates,United Kingdom,United States,Uruguay,Uzbekistan,Vanuatu,Vatican,Venezuela,Vietnam,Wallis and Futuna,Western Sahara,Yemen,Zambia,Zimbabwe", nil);
+                NSString *Country = [[NSUserDefaults standardUserDefaults] stringForKey:@"Country"];
+                NSIndexPath *path = [NSIndexPath indexPathForRow:[Country intValue] inSection:0];
+                if([indexPath isEqual:path] && [Country length] != 0){cell.accessoryType = UITableViewCellAccessoryCheckmark;}
+                else{cell.accessoryType = UITableViewCellAccessoryNone;}
+                //[tableView selectRowAtIndexPath:path animated:YES scrollPosition:UITableViewScrollPositionNone];
             break;
         }
         case 7:
         {
             // will need to make sub switch or load from web
             listData = NSLocalizedString(gV_region_list, nil);
+            NSString *Region = [[NSUserDefaults standardUserDefaults] stringForKey:@"Region"];
+            NSIndexPath *path = [NSIndexPath indexPathForRow:[Region intValue] inSection:0];
+            if([indexPath isEqual:path] && [Region length] != 0){cell.accessoryType = UITableViewCellAccessoryCheckmark;}
+            else{cell.accessoryType = UITableViewCellAccessoryNone;}
             break;
         }
         case 8:
@@ -188,10 +210,15 @@ NSString *gV_city_list = @"";
     cell.textLabel.text = [parts objectAtIndex:indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     
+    
     return cell;
 }
 
+
+
 -(void)tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
     
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
@@ -201,13 +228,13 @@ NSString *gV_city_list = @"";
         case 5:
         {
             [[NSUserDefaults standardUserDefaults] setObject:cell.textLabel.text forKey:@"Gender_text"];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:indexPath.row] forKey:@"Gender"];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:@"Gender"];
             break;
         }
         case 6:
         {
             [[NSUserDefaults standardUserDefaults] setObject:cell.textLabel.text forKey:@"Country_text"];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:indexPath.row] forKey:@"Country"];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:@"Country"];
             
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Region_text"];
             [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"Region"];
@@ -216,13 +243,13 @@ NSString *gV_city_list = @"";
         case 7:
         {
             [[NSUserDefaults standardUserDefaults] setObject:cell.textLabel.text forKey:@"Region_text"];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:indexPath.row] forKey:@"Region"];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:@"Region"];
             break;
         }
         case 8:
         {
             [[NSUserDefaults standardUserDefaults] setObject:cell.textLabel.text forKey:@"City_text"];
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInteger:indexPath.row] forKey:@"City"];
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:@"City"];
             break;
         }
             
@@ -234,8 +261,57 @@ NSString *gV_city_list = @"";
 
     [self dismissViewControllerAnimated:YES completion:nil];
     [tableView deselectRowAtIndexPath:[tableView indexPathForSelectedRow] animated:YES];
+
     
 }
+
+- (NSString *)localizedTitle {
+    return @"A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z, #";
+}
+
+////
+- (void)setObjects:(NSArray *)objects {
+    SEL selector = @selector(localizedTitle);
+    NSInteger index, sectionTitlesCount = [[[UILocalizedIndexedCollation currentCollation] sectionTitles] count];
+    
+    NSMutableArray *mutableSections = [[NSMutableArray alloc] initWithCapacity:sectionTitlesCount];
+    for (NSUInteger idx = 0; idx < sectionTitlesCount; idx++) {
+        [mutableSections addObject:[NSMutableArray array]];
+    }
+    
+    for (id object in objects) {
+        NSInteger sectionNumber = [[UILocalizedIndexedCollation currentCollation] sectionForObject:object collationStringSelector:selector];
+        [[mutableSections objectAtIndex:sectionNumber] addObject:object];
+    }
+    
+    for (NSUInteger idx = 0; idx < sectionTitlesCount; idx++) {
+        NSArray *objectsForSection = [mutableSections objectAtIndex:idx];
+        [mutableSections replaceObjectAtIndex:idx withObject:[[UILocalizedIndexedCollation currentCollation] sortedArrayFromArray:objectsForSection collationStringSelector:selector]];
+    }
+    
+    //self.sections = mutableSections;
+    
+   // [UITableView reloadData];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [[[UILocalizedIndexedCollation currentCollation] sectionTitles] objectAtIndex:section];
+}
+
+- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
+    return [[UILocalizedIndexedCollation currentCollation] sectionIndexTitles];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView
+sectionForSectionIndexTitle:(NSString *)title
+               atIndex:(NSInteger)index
+{
+    return [[UILocalizedIndexedCollation currentCollation] sectionForSectionIndexTitleAtIndex:index];
+}
+
+////
+
 
 - (IBAction)cancelButton{
     [self.view endEditing:YES];

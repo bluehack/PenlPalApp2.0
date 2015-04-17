@@ -11,6 +11,15 @@
 
 NSString *gV_signup_age = @"";
 
+UITextField *nameTextField = nil;
+UITextField *emailTextField = nil;
+UITextField *passwordTextField = nil;
+UITextField *usernameTextField = nil;
+UITextField *birthTextField = nil;
+UIButton *genderButton = nil;
+UIButton *countryButton = nil;
+UIButton *regionButton = nil;
+
 @interface SignupPage ()
 
 @end
@@ -21,24 +30,25 @@ NSString *gV_signup_age = @"";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIScrollView* scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0 + 72, self.view.bounds.size.width, self.view.bounds.size.height)];
-    scrollView.scrollEnabled = YES;
-    scrollView.pagingEnabled = NO;
-    scrollView.showsVerticalScrollIndicator = YES;
-    scrollView.showsHorizontalScrollIndicator = YES;
-    scrollView.contentSize = CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height + 200);
-    [self.view insertSubview:scrollView atIndex:0];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
     
     float width = 300;
     float height = 38;
-    float xPos = 10;
-    float yPos = 20;
+    float xPos = 15;
+    float yPos = 3;
     
     float buttonWidth = 300;
     float buttonHeight = 28;
     float buttonX = (self.view.frame.size.width - buttonWidth)/2;
     
-    UITextField *nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
+    nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
     nameTextField.borderStyle = UITextBorderStyleRoundedRect;
     nameTextField.textColor = [UIColor blackColor];
     nameTextField.font = [UIFont systemFontOfSize:17.0];
@@ -48,11 +58,12 @@ NSString *gV_signup_age = @"";
     nameTextField.keyboardType = UIKeyboardTypeDefault;
     nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
 #pragma mark - may need to center do diff screen sizes
+    nameTextField.borderStyle = UITextBorderStyleNone;
     nameTextField.tag = 0;
     nameTextField.delegate = self;
-    [scrollView addSubview:nameTextField];
     
-    UITextField *emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos + 50, width, height)];
+    
+    emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
     emailTextField.borderStyle = UITextBorderStyleRoundedRect;
     emailTextField.textColor = [UIColor blackColor];
     emailTextField.font = [UIFont systemFontOfSize:17.0];
@@ -62,11 +73,12 @@ NSString *gV_signup_age = @"";
     emailTextField.autocapitalizationType = false;
     emailTextField.keyboardType = UIKeyboardTypeEmailAddress;
     emailTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    emailTextField.borderStyle = UITextBorderStyleNone;
     emailTextField.tag = 1;
     emailTextField.delegate = self;
-    [scrollView addSubview:emailTextField];
     
-    UITextField *passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos + 100, width, height)];
+    
+    passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
     passwordTextField.borderStyle = UITextBorderStyleRoundedRect;
     passwordTextField.textColor = [UIColor blackColor];
     passwordTextField.font = [UIFont systemFontOfSize:17.0];
@@ -76,10 +88,11 @@ NSString *gV_signup_age = @"";
     passwordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     passwordTextField.secureTextEntry = true;
     passwordTextField.tag = 2;
+    passwordTextField.borderStyle = UITextBorderStyleNone;
     passwordTextField.delegate = self;
-    [scrollView addSubview:passwordTextField];
     
-    UITextField *usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos + 150, width, height)];
+    
+    usernameTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
     usernameTextField.borderStyle = UITextBorderStyleRoundedRect;
     usernameTextField.textColor = [UIColor blackColor];
     usernameTextField.font = [UIFont systemFontOfSize:17.0];
@@ -90,79 +103,62 @@ NSString *gV_signup_age = @"";
     usernameTextField.keyboardType = UIKeyboardTypeDefault;
     usernameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
     usernameTextField.tag = 3;
+    usernameTextField.borderStyle = UITextBorderStyleNone;
     usernameTextField.delegate = self;
-    [scrollView addSubview:usernameTextField];
-
-    UITextField *birthTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos + 200, width, height)];
+    
+    
+    birthTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
     birthTextField.borderStyle = UITextBorderStyleRoundedRect;
     birthTextField.textColor = [UIColor blackColor];
     birthTextField.font = [UIFont systemFontOfSize:17.0];
-    birthTextField.placeholder = @"Birthdate MM-DD-YYYY";
+    birthTextField.placeholder = NSLocalizedString(@"Birthday 01-31-1999", nil);
 #pragma mark - may need to auto add / and pad 0's for 1-9.
     birthTextField.backgroundColor = [UIColor clearColor];
     birthTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     birthTextField.keyboardType = UIKeyboardTypeNumberPad;
     birthTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    birthTextField.borderStyle = UITextBorderStyleNone;
     birthTextField.tag = 4;
     birthTextField.delegate = self;
-    [scrollView addSubview:birthTextField];
     
-    UIButton *genderButton = [[UIButton alloc] initWithFrame: CGRectMake(buttonX, yPos + 270, buttonWidth, buttonHeight)];
+    
+    genderButton = [[UIButton alloc] initWithFrame: CGRectMake(buttonX, yPos + 5, buttonWidth, buttonHeight)];
     [genderButton setTitleColor:[UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1.0] forState: UIControlStateNormal];
     [genderButton setTitleColor:[UIColor blueColor] forState: UIControlStateHighlighted];
     [genderButton setTitle:@"Select Gender" forState:UIControlStateNormal];
     [genderButton setTag:5];
     [genderButton addTarget:self action:@selector(actionBTN:) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview: genderButton];
     
-    UIButton *countryButton = [[UIButton alloc] initWithFrame: CGRectMake(buttonX, yPos + 320, buttonWidth, buttonHeight)];
+    
+    countryButton = [[UIButton alloc] initWithFrame: CGRectMake(buttonX, yPos + 5, buttonWidth, buttonHeight)];
     [countryButton setTitleColor:[UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1.0] forState: UIControlStateNormal];
     [countryButton setTitleColor:[UIColor blueColor] forState: UIControlStateHighlighted];
     [countryButton setTitle:@"Select Country" forState:UIControlStateNormal];
     [countryButton setTag:6];
     [countryButton addTarget:self action:@selector(actionBTN:) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview: countryButton];
     
-    UIButton *regionButton = [[UIButton alloc] initWithFrame: CGRectMake(buttonX, yPos + 370, buttonWidth, buttonHeight)];
+    
+    regionButton = [[UIButton alloc] initWithFrame: CGRectMake(buttonX, yPos + 5, buttonWidth, buttonHeight)];
     [regionButton setTitleColor:[UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1.0] forState: UIControlStateNormal];
     [regionButton setTitleColor:[UIColor blueColor] forState: UIControlStateHighlighted];
     [regionButton setTitle:@"Select Region" forState:UIControlStateNormal];
     [regionButton setTag:7];
     [regionButton addTarget:self action:@selector(actionBTN:) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview: regionButton];
     
-    UIButton *cityButton = [[UIButton alloc] initWithFrame: CGRectMake(buttonX, yPos + 420, buttonWidth, buttonHeight)];
-    [cityButton setTitleColor:[UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1.0] forState: UIControlStateNormal];
-    [cityButton setTitleColor:[UIColor blueColor] forState: UIControlStateHighlighted];
-    [cityButton setTitle:@"Select City" forState:UIControlStateNormal];
-    [cityButton setTag:8];
-    [cityButton addTarget:self action:@selector(actionBTN:) forControlEvents:UIControlEventTouchUpInside];
-#pragma - removed during initial launch
-    //[scrollView addSubview: cityButton];
 
-}
-
--(void)viewWillAppear:(BOOL)animated{
     
     // set button with user data
-    UIButton* gndr = (UIButton *)[self.view viewWithTag:5];
     NSString* Gender_text = [[NSUserDefaults standardUserDefaults] stringForKey:@"Gender_text"];
-    if (![Gender_text length] == 0) {[gndr setTitle:Gender_text forState:UIControlStateNormal];}
+    if (![Gender_text length] == 0) {[genderButton setTitle:Gender_text forState:UIControlStateNormal];}
     
-    UIButton* cntry = (UIButton *)[self.view viewWithTag:6];
     NSString* Country_text = [[NSUserDefaults standardUserDefaults] stringForKey:@"Country_text"];
-    if (![Country_text length] == 0) {[cntry setTitle:Country_text forState:UIControlStateNormal];}
+    if (![Country_text length] == 0) {[countryButton setTitle:Country_text forState:UIControlStateNormal];}
 
-    UIButton* rgn = (UIButton *)[self.view viewWithTag:7];
     NSString* Region_text = [[NSUserDefaults standardUserDefaults] stringForKey:@"Region_text"];
-    if (![Region_text length] == 0) {[rgn setTitle:Region_text forState:UIControlStateNormal];}
-    else{
-        [rgn setTitle:@"Select Region" forState:UIControlStateNormal];
-    }
+    if (![Region_text length] == 0) {[regionButton setTitle:Region_text forState:UIControlStateNormal];}
+    else{[regionButton setTitle:@"Select Region" forState:UIControlStateNormal];}
     
-    UIButton* cty = (UIButton *)[self.view viewWithTag:8];
-    NSString* City_text = [[NSUserDefaults standardUserDefaults] stringForKey:@"City_text"];
-    if (![City_text length] == 0) {[cty setTitle:City_text forState:UIControlStateNormal];}
+
     
 }
 
@@ -174,6 +170,128 @@ NSString *gV_signup_age = @"";
 - (IBAction)cancelButton{
     [self.view endEditing:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    // Return the number of sections.
+    return 5;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    // Return the number of rows in the section.
+    
+    switch (section) {
+        case 0:
+            return 3;
+            break;
+        case 4:
+            return 2;
+            break;
+        default:
+            break;
+    }
+    return 1;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if (section == 0)
+        return 20;
+    if (section == 4)
+        return 40;
+    return tableView.sectionHeaderHeight;
+}
+
+- (CGFloat) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (section == 4)
+        return 250;
+    return tableView.sectionFooterHeight;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    }
+    
+    
+    
+    if (indexPath.section == 0) {
+    switch (indexPath.row) {
+        case 0:
+            [cell addSubview:usernameTextField];
+            break;
+        case 1:
+            [cell addSubview:nameTextField];
+            break;
+        case 2:
+            [cell addSubview:passwordTextField];
+            break;
+        default:
+            break;
+        }
+    }
+    if (indexPath.section == 1) {
+        switch (indexPath.row) {
+            case 0:
+                [cell addSubview:emailTextField];
+                break;
+            default:
+                break;
+        }
+    }
+    if (indexPath.section == 2) {
+        switch (indexPath.row) {
+            case 0:
+                [cell addSubview:birthTextField];
+                break;
+            default:
+                break;
+        }
+    }
+    if (indexPath.section == 3) {
+        switch (indexPath.row) {
+            case 0:
+                [cell addSubview: genderButton];
+                break;
+            default:
+                break;
+        }
+    }
+    if (indexPath.section == 4) {
+        switch (indexPath.row) {
+        case 0:
+            [cell addSubview: countryButton];
+            break;
+        case 1:
+            [cell addSubview: regionButton];
+            break;
+        default:
+            break;
+        
+        }
+       
+    }
+
+#pragma - might make parts a global veriable
+
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell;
+}
+
+
+
+-(void)tableView:(UITableView *) tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
 - (IBAction)submitButton{
@@ -204,10 +322,12 @@ NSDateComponents* ageComponents = [[NSCalendar currentCalendar] components:NSCal
     [error show];
     
     // if data is good, proceed. Store user info as ints for fast upload & security
-    NSInteger Gender = [[NSUserDefaults standardUserDefaults] integerForKey:@"Gender"];
-    NSInteger Country = [[NSUserDefaults standardUserDefaults] integerForKey:@"Country"];
-    NSInteger Region = [[NSUserDefaults standardUserDefaults] integerForKey:@"Region"];
-    NSInteger City = [[NSUserDefaults standardUserDefaults] integerForKey:@"City"];
+    NSString *Gender = [[NSUserDefaults standardUserDefaults] stringForKey:@"Gender"];
+    NSString *Country = [[NSUserDefaults standardUserDefaults] stringForKey:@"Country"];
+    // will add a 1 to everyone if the region list gets updated
+    NSString *Region = [[NSUserDefaults standardUserDefaults] stringForKey:@"Region"];
+    
+    NSLog(@"Sex: %@, Age: %@, Cny: %@, Reg: %@", Gender, gV_signup_age, Country, Region);
     
 #pragma - remove after testing
     //[[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"loggedIn"];

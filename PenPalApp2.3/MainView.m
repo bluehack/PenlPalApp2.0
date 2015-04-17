@@ -37,6 +37,7 @@
         InitView *initView = (InitView *) [self.storyboard instantiateViewControllerWithIdentifier:@"initView"];
         [self presentViewController:initView animated:NO completion:nil];
     }
+    
 }
 
 /*

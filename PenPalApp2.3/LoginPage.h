@@ -8,12 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoginPage : UIViewController<UITextFieldDelegate> {
+extern UITextField *loginNameTextField;
+extern UITextField *loginPasswordTextField;
+extern UIButton *forgotButton;
+
+@interface LoginPage : UIViewController<UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource> {
     
 }
 
 -(IBAction) cancelButton;
 -(IBAction) forgotLoginInfo;
 -(IBAction) login;
+
+
+@property (strong, nonatomic) IBOutlet UITableView  *tableView;
 
 @end

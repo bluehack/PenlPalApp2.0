@@ -13,11 +13,16 @@ extern NSString *gV_region_list;
 extern NSString *gV_city_list;
 
 @interface SignupOptions : UIViewController<UITableViewDelegate,UITableViewDataSource>{
+    
  
 }
 
 
 - (IBAction)cancelButton;
 
+@property (strong, nonatomic) IBOutlet UITableView  *tableView;
+@property (strong, nonatomic) IBOutlet UINavigationBar *navTitle;
+
+@property(nonatomic, readonly) NSString *localizedTitle;
 
 @end

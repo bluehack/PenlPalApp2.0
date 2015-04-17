@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ForgotLoginInfo : UIViewController<UIAlertViewDelegate, UITextFieldDelegate>{
+extern UITextField *forgotTextField;
+extern UILabel *forgotLabel;
+
+@interface ForgotLoginInfo : UIViewController<UIAlertViewDelegate, UITextFieldDelegate,UITableViewDelegate,UITableViewDataSource>{
     
 }
 
 - (IBAction)cancelButton;
 - (IBAction)submitButton;
+
+@property (strong, nonatomic) IBOutlet UITableView  *tableView;
 
 @end

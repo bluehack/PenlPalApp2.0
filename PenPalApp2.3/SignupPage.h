@@ -10,11 +10,22 @@
 
 extern NSString *gV_signup_age;
 
-@interface SignupPage : UIViewController<UIAlertViewDelegate, UITextFieldDelegate>{
+extern UITextField *nameTextField;
+extern UITextField *emailTextField;
+extern UITextField *passwordTextField;
+extern UITextField *usernameTextField;
+extern UITextField *birthTextField;
+extern UIButton *genderButton;
+extern UIButton *countryButton;
+extern UIButton *regionButton;
+
+@interface SignupPage : UIViewController<UIAlertViewDelegate, UITextFieldDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     
 }
 
 - (IBAction)cancelButton;
 - (IBAction)submitButton;
+
+@property (strong, nonatomic) IBOutlet UITableView  *tableView;
 
 @end
