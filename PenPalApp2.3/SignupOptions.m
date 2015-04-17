@@ -13,6 +13,7 @@ NSUInteger gV_region = 0;
 NSString *gV_region_list = @"";
 NSString *gV_city_list = @"";
 
+
 @interface SignupOptions ()
 
 @end
@@ -244,6 +245,7 @@ NSString *gV_city_list = @"";
         {
             [[NSUserDefaults standardUserDefaults] setObject:cell.textLabel.text forKey:@"Region_text"];
             [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%ld",(long)indexPath.row] forKey:@"Region"];
+             [[NSUserDefaults standardUserDefaults] synchronize];
             break;
         }
         case 8:

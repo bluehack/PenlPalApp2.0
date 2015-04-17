@@ -11,6 +11,8 @@
 
 NSString *gV_signup_age = @"";
 
+
+//UITextField *nameTextField = nil;
 UITextField *nameTextField = nil;
 UITextField *emailTextField = nil;
 UITextField *passwordTextField = nil;
@@ -32,11 +34,14 @@ UIButton *regionButton = nil;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    /*
+    float width = 300;
+    float height = 38;
+    float xPos = 15;
+    float yPos = 3;
     
-
-}
-
--(void)viewWillAppear:(BOOL)animated{
+    nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(xPos, yPos, width, height)];
+     */
     
     
     float width = 300;
@@ -52,7 +57,7 @@ UIButton *regionButton = nil;
     nameTextField.borderStyle = UITextBorderStyleRoundedRect;
     nameTextField.textColor = [UIColor blackColor];
     nameTextField.font = [UIFont systemFontOfSize:17.0];
-    nameTextField.placeholder = @"Name";
+    nameTextField.placeholder = NSLocalizedString(@"Name", nil);
     nameTextField.backgroundColor = [UIColor clearColor];
     nameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     nameTextField.keyboardType = UIKeyboardTypeDefault;
@@ -67,7 +72,7 @@ UIButton *regionButton = nil;
     emailTextField.borderStyle = UITextBorderStyleRoundedRect;
     emailTextField.textColor = [UIColor blackColor];
     emailTextField.font = [UIFont systemFontOfSize:17.0];
-    emailTextField.placeholder = @"Email Address";
+    emailTextField.placeholder = NSLocalizedString(@"Email", @"E-mail");
     emailTextField.backgroundColor = [UIColor clearColor];
     emailTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     emailTextField.autocapitalizationType = false;
@@ -82,7 +87,7 @@ UIButton *regionButton = nil;
     passwordTextField.borderStyle = UITextBorderStyleRoundedRect;
     passwordTextField.textColor = [UIColor blackColor];
     passwordTextField.font = [UIFont systemFontOfSize:17.0];
-    passwordTextField.placeholder = @"Password";
+    passwordTextField.placeholder = NSLocalizedString(@"Password", nil);
     passwordTextField.backgroundColor = [UIColor clearColor];
     passwordTextField.keyboardType = UIKeyboardTypeDefault;
     passwordTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
@@ -96,7 +101,7 @@ UIButton *regionButton = nil;
     usernameTextField.borderStyle = UITextBorderStyleRoundedRect;
     usernameTextField.textColor = [UIColor blackColor];
     usernameTextField.font = [UIFont systemFontOfSize:17.0];
-    usernameTextField.placeholder = @"Username";
+    usernameTextField.placeholder = NSLocalizedString(@"Username", nil);
     usernameTextField.backgroundColor = [UIColor clearColor];
     usernameTextField.autocorrectionType = UITextAutocorrectionTypeNo;
     usernameTextField.autocapitalizationType = false;
@@ -111,7 +116,7 @@ UIButton *regionButton = nil;
     birthTextField.borderStyle = UITextBorderStyleRoundedRect;
     birthTextField.textColor = [UIColor blackColor];
     birthTextField.font = [UIFont systemFontOfSize:17.0];
-    birthTextField.placeholder = NSLocalizedString(@"Birthday 01-31-1999", nil);
+    birthTextField.placeholder = NSLocalizedString(@"Birthday 01-31-1999", @"birthdate");
 #pragma mark - may need to auto add / and pad 0's for 1-9.
     birthTextField.backgroundColor = [UIColor clearColor];
     birthTextField.autocorrectionType = UITextAutocorrectionTypeNo;
@@ -125,7 +130,7 @@ UIButton *regionButton = nil;
     genderButton = [[UIButton alloc] initWithFrame: CGRectMake(buttonX, yPos + 5, buttonWidth, buttonHeight)];
     [genderButton setTitleColor:[UIColor colorWithRed:30/255.0 green:144/255.0 blue:255/255.0 alpha:1.0] forState: UIControlStateNormal];
     [genderButton setTitleColor:[UIColor blueColor] forState: UIControlStateHighlighted];
-    [genderButton setTitle:@"Select Gender" forState:UIControlStateNormal];
+    [genderButton setTitle:NSLocalizedString(@"Select Gender", @"Gender") forState:UIControlStateNormal];
     [genderButton setTag:5];
     [genderButton addTarget:self action:@selector(actionBTN:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -147,6 +152,15 @@ UIButton *regionButton = nil;
     
 
     
+    
+    
+
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
+ 
+    
     // set button with user data
     NSString* Gender_text = [[NSUserDefaults standardUserDefaults] stringForKey:@"Gender_text"];
     if (![Gender_text length] == 0) {[genderButton setTitle:Gender_text forState:UIControlStateNormal];}
@@ -158,8 +172,22 @@ UIButton *regionButton = nil;
     if (![Region_text length] == 0) {[regionButton setTitle:Region_text forState:UIControlStateNormal];}
     else{[regionButton setTitle:@"Select Region" forState:UIControlStateNormal];}
     
-
     
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    
+    /*
+    NSIndexPath* indexPath1 = [NSIndexPath indexPathForRow:0 inSection:3];
+    NSIndexPath* indexPath2 = [NSIndexPath indexPathForRow:0 inSection:4];
+    NSIndexPath* indexPath3 = [NSIndexPath indexPathForRow:1 inSection:4];
+    // Add them in an index path array
+    NSArray* indexArray = [NSArray arrayWithObjects:indexPath1, indexPath2, indexPath3, nil];
+    // Launch reload for the two index path
+    [self.tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationNone];
+    */
+    //[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -213,10 +241,29 @@ UIButton *regionButton = nil;
 
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    //UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+        
     }
+    /*
+    else
+    {
+        // Prepare cell for reuse
+        
+        // Remove subviews from cell's contentView
+        for (UIView *view in cell.contentView.subviews)
+        {
+            // Remove only the appropriate views
+            if ([view isKindOfClass:[UIButton class]])
+            {
+                [view removeFromSuperview];
+            }
+        }
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        cell.textLabel.text = nil;
+    }*/
     
     
     
@@ -265,7 +312,7 @@ UIButton *regionButton = nil;
     if (indexPath.section == 4) {
         switch (indexPath.row) {
         case 0:
-            [cell addSubview: countryButton];
+            [cell  addSubview: countryButton]; //cell.contentView
             break;
         case 1:
             [cell addSubview: regionButton];
@@ -277,6 +324,7 @@ UIButton *regionButton = nil;
        
     }
 
+   
 #pragma - might make parts a global veriable
 
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -327,7 +375,14 @@ NSDateComponents* ageComponents = [[NSCalendar currentCalendar] components:NSCal
     // will add a 1 to everyone if the region list gets updated
     NSString *Region = [[NSUserDefaults standardUserDefaults] stringForKey:@"Region"];
     
-    NSLog(@"Sex: %@, Age: %@, Cny: %@, Reg: %@", Gender, gV_signup_age, Country, Region);
+    nameTextField.text = nameTextField.text;
+    emailTextField.text = emailTextField.text;
+    passwordTextField.text = passwordTextField.text;
+    usernameTextField.text = usernameTextField.text;
+    birthTextField.text = birthTextField.text;
+    
+    // Post this data to DB !!
+    NSLog(@"Sex: %@, Age: %@, Cny: %@, Reg: %@, Name: %@, Email: %@, Pass: %@, UserN: %@", Gender, gV_signup_age, Country, Region, nameTextField.text, emailTextField.text, passwordTextField.text, usernameTextField.text);
     
 #pragma - remove after testing
     //[[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"loggedIn"];
@@ -435,6 +490,25 @@ NSMutableString *filteredPhoneStringFromStringWithFilter(NSString *string, NSStr
      //NSLog(@"txt: %@", textField.text);
     
     return NO;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger) section
+{
+    if (section == 4) {
+    
+    //section text as a label
+    UILabel *lbl = [[UILabel alloc] initWithFrame: CGRectMake(10, 15, self.view.frame.size.width, 30)];
+    lbl.textAlignment = NSTextAlignmentCenter;
+    
+    lbl.text = NSLocalizedString(@"Current Location", @"Location");
+    [lbl setFont:[UIFont fontWithName:@"Helvetica" size:18]];
+    [lbl setTextColor:[UIColor grayColor]];
+    [lbl setBackgroundColor:[UIColor clearColor]];
+    
+    return lbl;
+    }
+    
+    return 0;
 }
 
 /*

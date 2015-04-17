@@ -22,15 +22,11 @@ UIButton *forgotButton = nil;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    
-  
-    
+
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-}
-
--(void)viewWillAppear:(BOOL)animated{
+    
+    
     float width = 300;
     float height = 38;
     float xPos = 14;
@@ -78,6 +74,11 @@ UIButton *forgotButton = nil;
     [forgotButton addTarget:self action:@selector(forgotLoginInfo) forControlEvents:UIControlEventTouchUpInside];
     
 
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -102,6 +103,10 @@ UIButton *forgotButton = nil;
 #pragma - remove after testing
     [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:@"loggedIn"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    // post data to db
+    loginNameTextField.text = loginNameTextField.text;
+    loginPasswordTextField.text = loginPasswordTextField.text;
     
     [[[self presentingViewController] presentingViewController] dismissViewControllerAnimated:NO completion:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -128,7 +133,7 @@ UIButton *forgotButton = nil;
     
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }

@@ -23,9 +23,7 @@ UILabel *forgotLabel = nil;
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-}
-
--(void)viewWillAppear:(BOOL)animated{
+    
     float width = 300;
     float height = 38;
     float xPos = 10;
@@ -64,6 +62,11 @@ UILabel *forgotLabel = nil;
     
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -78,7 +81,10 @@ UILabel *forgotLabel = nil;
     
     // alert if error
     
-    //if good
+    //if good, post to db
+    
+    forgotTextField.text = forgotTextField.text;
+    
     UIAlertView *resetSent = [[UIAlertView alloc]
                           initWithTitle: @"Please check your email for your password reset link"
                           message: nil
@@ -111,7 +117,7 @@ UILabel *forgotLabel = nil;
     
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:nil];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
