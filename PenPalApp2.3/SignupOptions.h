@@ -26,4 +26,6 @@ extern NSString *gV_city_list;
 
 @property(nonatomic, readonly) NSString *localizedTitle;
 
+@property(readwrite, copy, nonatomic) NSArray *tableData;
+
 @end

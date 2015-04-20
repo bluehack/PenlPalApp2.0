@@ -26,7 +26,6 @@ UIButton *forgotButton = nil;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    
     float width = 300;
     float height = 38;
     float xPos = 14;
@@ -149,7 +148,6 @@ UIButton *forgotButton = nil;
         default:
             break;
     }
-
     
     //self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 40)];
     //[self.tableView.tableFooterView setBackgroundColor: [UIColor blackColor]];
