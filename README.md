@@ -12,9 +12,7 @@ Login / signup page complete, other than styling/ connetion to db which shouldn'
 ![alt tag](https://raw.github.com/bluehack/PenlPalApp2.0/master/pic3.png)
 
 
-# Below are some app designs that I think we can leverage. 
-
-The profile and messaging pages of our app will need to have a simple, intuitive, and functional design, similar to the apps below (feel free to take inpiration from other apps too!):
+# Below are some app designs that I like:
 
 <b>Profile</b> <br/>
 ![alt tag](http://i.imgur.com/JbNzrxR.png)<br/><br/>
